@@ -2,11 +2,15 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
+    <!-- Mozek webu, tady jsou instrukce pro prohlížeč -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zemědělství Kadaňka - Poctivá rezervace</title>
+    
+    <title>Zemědělství Kadaňka</title> <!-- Tohle se ukáže v záložce prohlížeče -->
+
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
-        /* Trochu poladíme barvy, aby to bylo víc EKO */
+        /* V sekci STYLE se poznámky píší takto s lomítkem a hvězdičkou */
         :root {
             --color-primary: #15803d; /* Zelená */
             --color-secondary: #f97316; /* Oranžová */
@@ -15,72 +19,111 @@
         body { background-color: var(--color-bg); }
     </style>
 </head>
+
 <body class="text-stone-800 font-sans antialiased">
 
+    <!-- Hlavní pruh nahoře na stránce -->
     <header class="bg-green-800 text-white p-6 shadow-md">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <h1 class="text-3xl font-bold tracking-tight">Zemědělství Kadaňka</h1>
-            <p class="italic text-green-100 hidden sm:block">Poctivá zelenina a vajíčka od souseda</p>
+            <p class="italic text-green-100 hidden sm:block">Poctivá zelenina od Vašeho souseda</p>
         </div>
     </header>
 
     <main class="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
 
-        <section class="mb-10 p-6 bg-white rounded-2xl shadow-sm border border-stone-100 text-center">
-            <h2 class="text-2xl font-semibold text-green-900 mb-3">Vítejte u nás!</h2>
-            <p class="text-stone-600 max-w-2xl mx-auto">
-                Nabízíme čerstvé, sezónní produkty vypěstované s láskou k půdě a zvířatům. Vše je bez chemie a plné chuti. Zarezervujte si je a vyzvedněte osobně.
-            </p>
-        </section>
-
+        <!-- Sekce s produkty - každé DIV je jedna karta produktu -->
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
 
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-100 transform transition hover:shadow-lg">
-                <img src="https://images.unsplash.com/photo-1518977676601-b53f02ac6d31?q=80&w=400&auto=format&fit=crop" alt="Brambory" class="w-full h-48 object-cover rounded-xl mb-4">
-                <h3 class="text-xl font-bold text-green-800">Brambory (odrůda Agria)</h3>
-                <p class="text-stone-500 text-sm mb-1">Varný typ B, skvělé na kaši i pečení.</p>
-                <p class="text-stone-600 mb-4">Balení: <span class="font-medium text-stone-800">5 kg</span></p>
+            <!-- PRODUKT: BRAMBORY -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-100">
+                <img src="https://images.unsplash.com/photo-1518977676601-b53f02ac6d31?q=80&w=400&auto=format&fit=crop" class="w-full h-48 object-cover rounded-xl mb-4">
+                <h3 class="text-xl font-bold text-green-800">Brambory (Agria)</h3>
+                <p class="text-stone-600 mb-4">Balení: 5 kg</p>
                 <div class="flex justify-between items-center">
-                    <span class="text-xl font-bold text-orange-600">120 Kč / bal.</span>
-                    <button onclick="addToCart('Brambory 5kg', 120)" class="bg-green-700 hover:bg-green-800 text-white px-5 py-2.5 rounded-full font-medium transition text-sm">
-                        Do rezervace
-                    </button>
+                    <span class="text-xl font-bold text-orange-600">120 Kč</span>
+                    <button onclick="addToCart('Brambory 5kg', 120)" class="bg-green-700 text-white px-5 py-2.5 rounded-full text-sm">Do rezervace</button>
                 </div>
             </div>
 
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-100 transform transition hover:shadow-lg">
-                <img src="https://images.unsplash.com/photo-1594191632734-d07b469502b4?q=80&w=400&auto=format&fit=crop" alt="Česnek" class="w-full h-48 object-cover rounded-xl mb-4">
+            <!-- PRODUKT: ČESNEK -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-100">
+                <img src="https://images.unsplash.com/photo-1594191632734-d07b469502b4?q=80&w=400&auto=format&fit=crop" class="w-full h-48 object-cover rounded-xl mb-4">
                 <h3 class="text-xl font-bold text-green-800">Domácí Česnek</h3>
-                <p class="text-stone-500 text-sm mb-1">Silná chuť, česká odrůda.</p>
-                <p class="text-stone-600 mb-4">Balení: <span class="font-medium text-stone-800">0,5 kg (cca 5-6 palic)</span></p>
+                <p class="text-stone-600 mb-4">Balení: 0,5 kg</p>
                 <div class="flex justify-between items-center">
-                    <span class="text-xl font-bold text-orange-600">95 Kč / bal.</span>
-                    <button onclick="addToCart('Česnek 0,5kg', 95)" class="bg-green-700 hover:bg-green-800 text-white px-5 py-2.5 rounded-full font-medium transition text-sm">
-                        Do rezervace
-                    </button>
+                    <span class="text-xl font-bold text-orange-600">95 Kč</span>
+                    <button onclick="addToCart('Česnek 0,5kg', 95)" class="bg-green-700 text-white px-5 py-2.5 rounded-full text-sm">Do rezervace</button>
                 </div>
             </div>
 
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-100 transform transition hover:shadow-lg">
-                <img src="https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?q=80&w=400&auto=format&fit=crop" alt="Vajíčka" class="w-full h-48 object-cover rounded-xl mb-4">
-                <h3 class="text-xl font-bold text-green-800">Čerstvá Vajíčka (M)</h3>
-                <p class="text-stone-500 text-sm mb-1">Od slepic z volného výběhu.</p>
-                <p class="text-stone-600 mb-4">Balení: <span class="font-medium text-stone-800">1 proložka (30 ks)</span></p>
+            <!-- PRODUKT: VAJÍČKA -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-stone-100">
+                <img src="https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?q=80&w=400&auto=format&fit=crop" class="w-full h-48 object-cover rounded-xl mb-4">
+                <h3 class="text-xl font-bold text-green-800">Vajíčka (30 ks)</h3>
+                <p class="text-stone-600 mb-4">Proložka od slepic z venku</p>
                 <div class="flex justify-between items-center">
-                    <span class="text-xl font-bold text-orange-600">180 Kč / bal.</span>
-                    <button onclick="addToCart('Vajíčka 30ks', 180)" class="bg-green-700 hover:bg-green-800 text-white px-5 py-2.5 rounded-full font-medium transition text-sm">
-                        Do rezervace
-                    </button>
+                    <span class="text-xl font-bold text-orange-600">180 Kč</span>
+                    <button onclick="addToCart('Vajíčka 30ks', 180)" class="bg-green-700 text-white px-5 py-2.5 rounded-full text-sm">Do rezervace</button>
                 </div>
             </div>
 
         </section>
 
+        <!-- REZERVAČNÍ FORMULÁŘ -->
         <section id="rezervace" class="bg-white p-8 rounded-2xl shadow-xl border-2 border-green-100 max-w-3xl mx-auto mb-10">
-            <h2 class="text-2xl font-bold mb-6 text-green-900 border-b pb-4">Tady si rezervujete produkty</h2>
+            <h2 class="text-2xl font-bold mb-6 text-green-900 border-b pb-4">Vaše rezervace</h2>
             
             <div id="cart-items" class="space-y-3 mb-6 border-b pb-6 text-stone-600 italic">
-                Zatím jste si nic nevybrali. Klikněte na tlačítko "Do rezervace" u produktu nahoře.
+                Zatím prázdno...
             </div>
 
-            <div id="cart-total" class="text-right text-lg font-bold text-green-
+            <form action="https://api.staticforms.xyz/submit" method="POST" class="space-y-5">
+                
+                <!-- Tady vlož ten Access Key ze Static Forms -->
+                <input type="hidden" name="accessKey" value="ZMEN-ME-ZA-KLIC-ZE-STATICFORMS">
+
+                <input type="hidden" name="Objednavka" id="cart-data-input" required>
+                <input type="text" name="honeypot" style="display:none"> <!-- Ochrana proti robotům -->
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" name="Jmeno" required placeholder="Jméno a Příjmení" class="border p-3 rounded-xl">
+                    <input type="tel" name="Telefon" required placeholder="Telefon" class="border p-3 rounded-xl">
+                </div>
+
+                <select name="Odber" required class="w-full border p-3 rounded-xl">
+                    <option value="" disabled selected>Kde si to vyzvednete?</option>
+                    <option value="U vrat">Osobně u vrat</option>
+                    <option value="Trhy">Na trzích</option>
+                </select>
+
+                <button type="submit" class="w-full bg-orange-500 text-white font-bold py-4 rounded-xl shadow-lg text-lg">
+                    Odeslat rezervaci
+                </button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer class="p-8 text-center text-stone-400 text-sm">
+        <p>&copy; 2026 Zemědělství Kadaňka</p>
+    </footer>
+
+    <!-- JAVASCRIPT: Tahle část počítá košík, na tu raději nesahej, pokud nemusíš -->
+    <script>
+        let cart = [];
+        function addToCart(name, price) {
+            cart.push({name, price});
+            renderCart();
+            document.getElementById('rezervace').scrollIntoView({behavior: 'smooth'});
+        }
+        function renderCart() {
+            const list = document.getElementById('cart-items');
+            const input = document.getElementById('cart-data-input');
+            if (cart.length === 0) return;
+            list.innerHTML = cart.map(item => `<div>• <strong>${item.name}</strong> (${item.price} Kč)</div>`).join('');
+            input.value = cart.map(item => item.name).join(', ');
+        }
+    </script>
+</body>
+</html>
