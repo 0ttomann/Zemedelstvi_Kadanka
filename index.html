@@ -159,57 +159,113 @@
 
     <!-- JAVASCRIPT: Logika košíku a odesílání -->
     <script>
-        let cart = [];
-        const startTime = Date.now(); // (( Stopky zapnuty hned při načtení stránky ))
-
+        let cart = {}; // Změna na objekt pro slučování stejných položek
+        const startTime = Date.now();
+    
+        // Přidání do košíku - pokud už tam věc je, jen zvýší počet
         function addToCart(name, price) {
-            cart.push({name, price});
+            if (cart[name]) {
+                cart[name].count += 1;
+            } else {
+                cart[name] = { price: price, count: 1 };
+            }
             renderCart();
             document.getElementById('rezervace').scrollIntoView({behavior: 'smooth'});
         }
-
+    
+        // NOVINKA: Odebrání jednoho kusu z košíku
+        function removeFromCart(name) {
+            if (cart[name]) {
+                if (cart[name].count > 1) {
+                    cart[name].count -= 1;
+                } else {
+                    delete cart[name];
+                }
+            }
+            renderCart();
+        }
+    
+        // Vykreslení košíku s výpočtem celkové ceny a křížkem pro smazání
         function renderCart() {
             const list = document.getElementById('cart-items');
             const input = document.getElementById('cart-data-input');
-            if (cart.length === 0) return;
-            list.innerHTML = cart.map(item => `<div>• <strong>${item.name}</strong> (${item.price} Kč)</div>`).join('');
-            input.value = cart.map(item => item.name).join(', ');
+            const keys = Object.keys(cart);
+            
+            if (keys.length === 0) {
+                list.innerHTML = "Zatím prázdno...";
+                input.value = "";
+                return;
+            }
+    
+            let total = 0;
+            let html = "";
+            let summaryText = [];
+    
+            keys.forEach(name => {
+                const item = cart[name];
+                const itemTotal = item.price * item.count;
+                total += itemTotal;
+                
+                summaryText.push(`${name} (${item.count}x)`);
+    
+                html += `
+                    <div class="flex justify-between items-center bg-stone-50 p-2 rounded-lg border border-stone-100 mb-2">
+                        <div>
+                            <span class="font-bold text-green-800">${item.count}x</span> 
+                            <span class="font-medium">${name}</span>
+                            <span class="text-sm text-stone-400 ml-2">(${itemTotal} Kč)</span>
+                        </div>
+                        <button type="button" onclick="removeFromCart('${name}')" class="text-red-500 hover:text-red-700 font-bold px-2" title="Odebrat">✕</button>
+                    </div>
+                `;
+            });
+    
+            // Přidání řádku s celkovou cenou přímo do košíku na webu
+            html += `
+                <div class="mt-4 pt-4 border-t-2 border-green-800 flex justify-between items-center font-bold text-lg text-green-900">
+                    <span>Celkem k úhradě:</span>
+                    <span>${total} Kč</span>
+                </div>
+            `;
+    
+            list.innerHTML = html;
+            input.value = summaryText.join(', ');
         }
-
-        // (( --- ODESÍLÁNÍ DO GOOGLE TABULEK --- ))
-        
+    
+        // Odesílání dat do Google Tabulek
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxLiGBhNBlZ1GsrmYy-gKmkq-5Snux6in1Q3m8AbM1UX4SEVZ-XHO0SPciD-RBhcAHp/exec'; 
-        
         const form = document.getElementById('orderForm');
         const btn = document.getElementById('submitBtn');
-
+    
         form.addEventListener('submit', e => {
             e.preventDefault();
+            const keys = Object.keys(cart);
             
-            if (cart.length === 0) {
+            if (keys.length === 0) {
                 alert("Košík je prázdný!");
                 return;
             }
-
+    
             btn.disabled = true;
             btn.innerText = "Odesílám...";
-
+    
             const duration = (Date.now() - startTime) / 1000;
             const formData = new FormData(form);
             
             formData.append('duration', duration);
             formData.append('browser_lang', navigator.language);
-
-            const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+    
+            // Přepočet ceny pro odeslání do tabulky a mailu
+            let totalPrice = 0;
+            keys.forEach(name => { totalPrice += cart[name].price * cart[name].count; });
             formData.append('price', totalPrice);
-
-            // (( Teď jen pošleme data Pošťákovi a on už se postará o maily ))
+    
             fetch(scriptURL, { method: 'POST', body: formData})
                 .then(response => {
-                    alert("Děkujeme za objednávku! Ondra se vám brzy ozve.");
+                    alert("Děkujeme za rezervaci! Ondra se vám brzy ozve.");
                     form.reset();
-                    cart = [];
-                    document.getElementById('cart-items').innerText = "Zatím prázdno...";
+                    cart = {}; 
+                    renderCart();
                     btn.disabled = false;
                     btn.innerText = "Odeslat rezervaci";
                 })
