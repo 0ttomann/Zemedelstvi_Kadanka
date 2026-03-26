@@ -108,10 +108,23 @@
                     <option value="Dvorska">osobně - Dvorska, Zapletalova 29/35</option>
                     <option value="Bohunice">osobně - Bohunice, Moldavská 535/19</option>
                 </select>
+             
+                  <div class="mb-4">
+                    <label class="block text-stone-700 font-bold mb-2">Poznámka pro Ondru (volitelné):</label>
+                    <textarea name="note" class="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-800 outline-none" rows="2" placeholder="Např. čas vyzvednutí, nechat u vrátek..."></textarea>
+                  </div>
 
                 <button type="submit" id="submitBtn" class="w-full bg-orange-500 text-white font-bold py-4 rounded-xl shadow-lg text-lg">
                     Odeslat rezervaci
                 </button>
+
+                    <div class="mb-6 p-4 bg-amber-50 border-l-4 border-amber-400 rounded-r-lg flex items-start shadow-sm">
+                        <span class="mr-3 text-amber-600">ℹ️</span>
+                        <p class="text-sm text-stone-700">
+                            <strong>Důležité info:</strong> Platba je možná pouze v <strong>hotovosti</strong> (nebo QR kódem) přímo při osobním odběru. Karty bohužel nepřijímáme.
+                        </p>
+                    </div>
+              
             </form>
         </section>
 
