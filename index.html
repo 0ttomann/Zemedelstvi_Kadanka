@@ -274,6 +274,7 @@
             
             formData.append('duration', duration);
             formData.append('browser_lang', navigator.language);
+            formData.append('user_agent', navigator.userAgent);
     
             // Přepočet ceny pro odeslání do tabulky a mailu
             let totalPrice = 0;
