@@ -101,7 +101,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- POZOR: Jméno v HTML name="name" musí sedět s kódem v Google Scriptu -->
                     <input type="text" name="name" required placeholder="Jméno a Příjmení" class="border p-3 rounded-xl">
-                    <input type="email" name="email" placeholder="Váš E-mail" class="border p-3 rounded-xl">
+                    <input type="email" name="email" placeholder="Váš E-mail (volitelné)" class="border p-3 rounded-xl">
                     <input type="tel" name="phone" required placeholder="Telefon" class="border p-3 rounded-xl">
                 </div>
 
@@ -182,6 +182,16 @@
     <script>
         let cart = {}; // Změna na objekt pro slučování stejných položek
         const startTime = Date.now();
+
+            // Při načtení stránky zkusí vytáhnout starý košík z paměti
+            // Tato část zajistí, že se košík načte až když je web "připraven"
+                    window.addEventListener('DOMContentLoaded', () => {
+                        const savedCart = localStorage.getItem('kadanka_cart');
+                        if (savedCart) {
+                            cart = JSON.parse(savedCart);
+                            renderCart(); 
+                        }
+                    });
     
         // Přidání do košíku - pokud už tam věc je, jen zvýší počet
         function addToCart(name, price) {
@@ -251,6 +261,9 @@
     
             list.innerHTML = html;
             input.value = summaryText.join(', ');
+
+          // Uloží aktuální stav košíku do paměti prohlížeče
+          localStorage.setItem('kadanka_cart', JSON.stringify(cart));
         }
     
         // Odesílání dat do Google Tabulek
@@ -287,6 +300,7 @@
                     alert("Děkujeme za rezervaci! Ondra se vám brzy ozve.");
                     form.reset();
                     cart = {}; 
+                    localStorage.removeItem('kadanka_cart');
                     renderCart();
                     btn.disabled = false;
                     btn.innerText = "Odeslat rezervaci";
